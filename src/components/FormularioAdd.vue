@@ -14,6 +14,17 @@ const perfil = ref({
     biografia: '',
 })
 
+let mostarResultado = false
+const emit = defineEmits('salvar')
+
+
+function salvar(){
+    if(mostarResultado == false)(
+        mostarResultado = true,
+        emit('salvar', {...perfil})
+    )
+}
+
 const confirmarsenha = ref("");
 
 const listaEstados = ref([
@@ -37,7 +48,7 @@ const listaEstados = ref([
     { 'nome': 'Piauí', 'sigla': 'PI-' },
     { 'nome': 'Rio de Janeiro', 'sigla': 'RJ-' },
     { 'nome': 'Rio Grande do Norte', 'sigla': 'RN-' },
-    { 'nome': 'Rio Grande do Sul', 'sigla': 'RS-' },
+    { 'nome': 'Rio Gran!mostarResultado de do Sul', 'sigla': 'RS-' },
     { 'nome': 'Rondônia', 'sigla': 'RO-' },
     { 'nome': 'Roraima', 'sigla': 'RR-' },
     { 'nome': 'Santa Catarina', 'sigla': 'SC-' },
@@ -73,8 +84,8 @@ const listaEstados = ref([
                 <label for="perfil.nascimento">Informe sua data de nascimento</label>
                 <input v-model="perfil.nascimento" type="text" required>
             </div>
-            <label for="perfil.estado">Informe seu Estado</label>
             <div class="estados">
+                <label for="perfil.estado">Informe seu Estado</label>
                 <select v-model="perfil.estado">
                     <option v-for="(value, index) of listaEstados" :key="index">{{ value.sigla
                     }}{{ value.nome }}</option>
@@ -100,11 +111,19 @@ const listaEstados = ref([
             <div class="biografia">
                 <textarea v-model="perfil.biografia" nome="biografia" cols="40" rows="5" required>biografia</textarea>
             </div>
+            <div class="btn1">
+                <button class="btn" @click="salvar">Enter</button>
+            </div>
         </div>
-        <button @click="$emit('salvar')">Salvar</button>
     </form>
 </template>
 
 <style scoped>
 
+.formulario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
 </style>
