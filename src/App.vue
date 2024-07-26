@@ -15,7 +15,7 @@ const hobbies = ref(null)
 const linguagem = ref(null)
 const biografia = ref(null)
 
-function passarDados(perfil){
+function passarDados(perfil) {
     nome.value = perfil.nome
     email.value = perfil.email
     senha.value = perfil.senha
@@ -34,22 +34,11 @@ function passarDados(perfil){
 </script>
 
 <template>
-<formulario-add @perfil="passarDados" v-if="mostarResultado" />
-<formulario-resp 
-:nome="nome" 
-:email="email" 
-:senha="senha" 
-:nascimento="nascimento" 
-:estado="estado" 
-:cidade="cidade"
-:endereco="endereco"
-:hobbies="hobbies"
-:linguagem="linguagem"
-:biografia="biografia" 
-v-else />
+    <formulario-add @perfil="passarDados" v-if="mostarResultado" />
+    <formulario-resp :nome="nome" :email="email" :senha="senha" :nascimento="nascimento" :estado="estado"
+        :cidade="cidade" :endereco="endereco" :hobbies="hobbies" :linguagem="linguagem" :biografia="biografia"
+        @voltar="mostarResultado = !mostarResultado" v-else></formulario-resp>
 
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

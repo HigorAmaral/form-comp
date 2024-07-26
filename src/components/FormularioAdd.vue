@@ -47,91 +47,116 @@ const listaEstados = ref([
     { 'nome': 'Tocantins', 'sigla': 'TO-' },
 ])
 
-function salvar(){
-if(perfil.senha != perfil.confirmarsenha){
-    alert("As senhas não são iguais")
+function salvar() {
+    if (perfil.senha !== perfil.confirmarsenha || perfil.confirmarsenha !== perfil.senha) {
+        alert('As senhas não são iguais')
+        salvar.value = false
+    } else if (
+        perfil.nome == '' ||
+        perfil.senha == '' ||
+        perfil.confirmarsenha == '' ||
+        perfil.email == '' ||
+        perfil.cidade == '' ||
+        perfil.estado == '' ||
+        perfil.hobbies == '' ||
+        perfil.linguagem == '' ||
+        perfil.data == ''
+    ) {
+        alert(`A campos vazios!!`)
+        salvar.value = false
+    }
+
+    else {
+        emit('perfil', {
+            nome: perfil.nome,
+            email: perfil.email,
+            senha: perfil.senha,
+            nascimento: perfil.nascimento,
+            estado: perfil.estado,
+            cidade: perfil.cidade,
+            endereco: perfil.endereco,
+            hobbies: perfil.hobbies,
+            linguagem: perfil.linguagem,
+            biografia: perfil.biografia
+        })
+    }
+
 }
-else{
-    emit('perfil', {
-        nome: perfil.nome,
-        email: perfil.email,
-        senha: perfil.senha,
-        nascimento: perfil.nascimento,
-        estado: perfil.estado,
-        cidade: perfil.cidade,
-        endereco: perfil.endereco,
-        hobbies: perfil.hobbies,
-        linguagem: perfil.linguagem,
-        biografia: perfil.biografia
-    })
-}
-}
+
 </script>
 
 <template>
-    <form>
-        <div class="formulario">
-            <h1>Preenchas os Campos</h1>
-            <div class="nome">
-                <label for="perfil.nome">Informe seu nome.</label>
-                <input v-model="perfil.nome" type="text" min="3" max="30">
+
+    <body>
+        <form>
+            <div class="formulario">
+                <h1>Preenchas os Campos</h1>
+                <div class="nome">
+                    <label for="perfil.nome">Informe seu nome.</label>
+                    <input v-model="perfil.nome" type="text" min="3" max="30" required>
+                </div>
+                <div class="email">
+                    <label for="perfil.email">Informe seu email</label>
+                    <input v-model="perfil.email" type="text" required>
+                </div>
+                <div class="senha">
+                    <label for="perfil.senha">Informe sua senha</label>
+                    <input v-model="perfil.senha" type="password" required>
+                </div>
+                <div class="confirmar">
+                    <label for=".perfil.confirmarsenha">Confirme sua senha:</label>
+                    <input v-model="perfil.confirmarsenha" type="password" required>
+                </div>
+                <div class="nascimento">
+                    <label for="perfil.nascimento">Informe sua data de nascimento</label>
+                    <input v-model="perfil.nascimento" type="date" required>
+                </div>
+                <div class="estados">
+                    <label for="perfil.estado">Informe seu Estado</label>
+                    <select v-model="perfil.estado">
+                        <option v-for="(value, index) of listaEstados" :key="index">{{ value.sigla
+                            }}{{ value.nome }}</option>
+                    </select>
+                </div>
+                <div class="cidade">
+                    <label for="perfil.cidade">Informe sua cidade</label>
+                    <input v-model="perfil.cidade" type="text" required>
+                </div>
+                <div class="endereco">
+                    <label fonomer="perfil.endereco">Informe seu endereço</label>
+                    <input v-model="perfil.endereco" type="text" required>
+                </div>
+                <div class="hobbies">
+                    <label for="perfil.hobbies">Informe seu hobbies</label>
+                    <input v-model="perfil.hobbies" type="text" required>
+                </div>
+                <div class="linguagem">
+                    <label for="perfil.linguagem">Informe sua linguagem de programação</label>
+                    <input v-model="perfil.linguagem" type="text" required>
+                </div>
+                <label for="perfil.biografia">Escreva sua Biografia</label>
+                <div class="biografia">
+                    <textarea v-model="perfil.biografia" nome="biografia" cols="40" rows="5"
+                        required>biografia</textarea>
+                </div>
+                <div class="btn1">
+                    <button @click="salvar">Enviar</button>
+                </div>
             </div>
-            <div class="email">
-                <label for="perfil.email">Informe seu email</label>
-                <input v-model="perfil.email" type="text">
-            </div>
-            <div class="senha">
-                <label for="perfil.senha">Informe sua senha</label>
-                <input v-model="perfil.senha" type="password">
-            </div>
-            <div class="confirmar">
-                <label for=".perfil.confirmarsenha">Confirme sua senha:</label>
-                <input v-model="perfil.confirmarsenha" type="password">
-            </div>
-            <div class="nascimento">
-                <label for="perfil.nascimento">Informe sua data de nascimento</label>
-                <input v-model="perfil.nascimento" type="date">
-            </div>
-            <div class="estados">
-                <label for="perfil.estado">Informe seu Estado</label>
-                <select v-model="perfil.estado">
-                    <option v-for="(value, index) of listaEstados" :key="index">{{ value.sigla
-                    }}{{ value.nome }}</option>
-                </select>
-            </div>
-            <div class="cidade">
-                <label for="perfil.cidade">Informe sua cidade</label>
-                <input v-model="perfil.cidade" type="text" required>
-            </div>
-            <div class="endereco">
-                <label fonomer="perfil.endereco">Informe seu endereço</label>
-                <input v-model="perfil.endereco" type="text" required>
-            </div>
-            <div class="hobbies">
-                <label for="perfil.hobbies">Informe seu hobbies</label>
-                <input v-model="perfil.hobbies" type="text" required>
-            </div>
-            <div class="linguagem">
-                <label for="perfil.linguagem">Informe sua linguagem de programação</label>
-                <input v-model="perfil.linguagem" type="text" required>
-            </div>
-            <label for="perfil.biografia">Escreva sua Biografia</label>
-            <div class="biografia">
-                <textarea v-model="perfil.biografia" nome="biografia" cols="40" rows="5" required>biografia</textarea>
-            </div>
-            <div class="btn1">
-                <button  @click="salvar">Enter</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </body>
 </template>
 
 <style scoped>
-
-.formulario{
+.formulario {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    color: rgb(177, 126, 126);
+}
+
+body {
+    background-color: rgb(62, 44, 78);
 }
 </style>
