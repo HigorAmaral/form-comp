@@ -1,10 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
+const emit = defineEmits('resultado', 'perfil')
 
-const perfil = ref({
+const perfil = reactive({
     nome: '',
     email: '',
     senha: '',
+    confirmarsenha: '',
     nascimento: '',
     estado: '',
     cidade: '',
@@ -14,18 +16,6 @@ const perfil = ref({
     biografia: '',
 })
 
-let mostarResultado = false
-const emit = defineEmits('salvar')
-
-
-function salvar(){
-    if(mostarResultado == false)(
-        mostarResultado = true,
-        emit('salvar', {...perfil})
-    )
-}
-
-const confirmarsenha = ref("");
 
 const listaEstados = ref([
     { 'nome': 'Acre', 'sigla': 'AC-' },
@@ -57,6 +47,25 @@ const listaEstados = ref([
     { 'nome': 'Tocantins', 'sigla': 'TO-' },
 ])
 
+function salvar(){
+if(perfil.senha != perfil.confirmarsenha){
+    alert("As senhas não são iguais")
+}
+else{
+    emit('perfil', {
+        nome: perfil.nome,
+        email: perfil.email,
+        senha: perfil.senha,
+        nascimento: perfil.nascimento,
+        estado: perfil.estado,
+        cidade: perfil.cidade,
+        endereco: perfil.endereco,
+        hobbies: perfil.hobbies,
+        linguagem: perfil.linguagem,
+        biografia: perfil.biografia
+    })
+}
+}
 </script>
 
 <template>
@@ -65,24 +74,23 @@ const listaEstados = ref([
             <h1>Preenchas os Campos</h1>
             <div class="nome">
                 <label for="perfil.nome">Informe seu nome</label>
-                <input v-model="perfil.nome" type="text" min="3" max="30" required>
+                <input v-model="perfil.nome" type="text" min="3" max="30">
             </div>
             <div class="email">
                 <label for="perfil.email">Informe seu email</label>
-                <input v-model="perfil.email" type="text" required>
+                <input v-model="perfil.email" type="text">
             </div>
             <div class="senha">
                 <label for="perfil.senha">Informe sua senha</label>
-                <input v-model="perfil.senha" type="password" required>
+                <input v-model="perfil.senha" type="password">
             </div>
             <div class="confirmar">
-                <label for="confirmarsenha">Confirme sua senha:</label>
-                <input v-model="confirmarsenha" type="password" required>
-                <p v-if="perfil.senha !== confirmarsenha">Incorreto!</p>
+                <label for=".perfil.confirmarsenha">Confirme sua senha:</label>
+                <input v-model="perfil.confirmarsenha" type="password">
             </div>
             <div class="nascimento">
                 <label for="perfil.nascimento">Informe sua data de nascimento</label>
-                <input v-model="perfil.nascimento" type="text" required>
+                <input v-model="perfil.nascimento" type="date">
             </div>
             <div class="estados">
                 <label for="perfil.estado">Informe seu Estado</label>
@@ -112,7 +120,7 @@ const listaEstados = ref([
                 <textarea v-model="perfil.biografia" nome="biografia" cols="40" rows="5" required>biografia</textarea>
             </div>
             <div class="btn1">
-                <button class="btn" @click="salvar">Enter</button>
+                <button  @click="salvar">Enter</button>
             </div>
         </div>
     </form>
