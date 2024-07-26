@@ -73,7 +73,7 @@ else{
         <div class="formulario">
             <h1>Preenchas os Campos</h1>
             <div class="nome">
-                <label for="perfil.nome">Informe seu nome</label>
+                <label for="perfil.nome">Informe seu nome.</label>
                 <input v-model="perfil.nome" type="text" min="3" max="30">
             </div>
             <div class="email">
